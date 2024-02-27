@@ -123,8 +123,6 @@ def find_anomality_points(mask):
                     d = a[1]  # a[1] for thinning
                     _left = max(0, int(a[0] - len(_thickness) / 10))
                     _right = min(len(_thickness) - 1, int(a[0] + len(_thickness) / 10))
-                    print(_thickness)
-                    print(_thickness[_left], _thickness[_right])
                     _mean = (_thickness[_left] + _thickness[_right]) / 2
 
                     if _mean == 0:

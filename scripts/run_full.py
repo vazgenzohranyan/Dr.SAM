@@ -136,7 +136,7 @@ def main():
             plt.title('Ground truth and predicted anomalies', fontsize=8)
 
             plt.savefig(output_dir / f'{im_id}_{j}.png')
-
+            plt.close()
 
 if __name__ == '__main__':
     main()
