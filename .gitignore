@@ -2,4 +2,4 @@
 data/
 tmp/
 sam_*
-*/__pycache__/
+__pycache__/
