@@ -2,3 +2,4 @@
 data/
 tmp/
 sam_*
+*/__pycache__/
