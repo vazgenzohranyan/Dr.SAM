@@ -84,7 +84,7 @@ The model is licensed under the [Apache 2.0 license](LICENSE).
 If you use **Dr.SAM** in your research, please use the following BibTeX entry.
 
 ```
-@article{kirillov2023segany,
+@article{...,
   TODO
 }
 ```
