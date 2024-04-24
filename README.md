@@ -62,16 +62,16 @@ The dataset archive is organized as follows:
 `metadata.json`: This file contains information about bounding boxes and anomalies in the images. The file is structured as follows:
 
 ```json
-{
-  "image_id": 1, // Image id in the dataset
-  "bboxes": [[x, y, width, height],
-             [x, y, width, height], 
-             [x, y, width, height]], // Bounding boxes of the vessels of interest
-  "anomalies": {
-    "stenosis": [(x, y)] // Coordinates of the stenosis, if no stenosis, the field is empty []
-    "aneurism": [(x, y)] // Coordinates of the aneurism, if no aneurism, the field is empty []
+  {
+    "image_id": 1, // Image id in the dataset
+    "anomalies": { // Anomalies in the image with the format {anomaly: [(x, y)]}
+      "stenosis": [[270, 351]], // Coordinates of the stenosis, if no stenosis, the field is empty []
+      "aneurysm": [[229, 388], [253, 361]] // Coordinates of the aneurism, if no aneurism, the field is empty []
+    },
+    "bboxes": [[158, 11, 134, 192], 
+               [13, 175, 187, 256],
+               [193, 147, 159, 246]] // Bounding boxes of the vessels of interest with the format [x, y, width, height]
   }
-}
 ```
 
 
