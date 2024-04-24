@@ -3,14 +3,14 @@
 [Vazgen Zohranyan](https://www.linkedin.com/in/vazgenzohranyan/), [Vagner Navasardyan](https://www.linkedin.com/in/vagner-navasardyan-94b89229a/), [Hayk Navasardyan](https://www.linkedin.com/in/hayk-navasardyan-104024211/), [Jan Borggrefe](https://www.linkedin.com/in/univ-prof-dr-med-jan-borggrefe-a51654161/), [Shant Navasardyan](https://www.linkedin.com/in/shant-navasardyan-1302aa149/)
 
 
-[[`Paper`](# WillBeAdded)] [[`Dataset`](https://drive.google.com/file/d/1o6igdM3PrEuVLSMEjece_jH3OhVNnoPg/view?usp=sharing)] 
+[[`Paper`](# WillBeAdded)] [[`Dataset`](https://drive.google.com/file/d/1TjxEJUD4VC_SAPcqdNVybsKRb_xW-Bze/view?usp=sharing)] 
 
 ![Dr. SAM design](assets/figure_3.png)
 
 The **Dr. SAM** is a comprehensive multi-stage framework for vessel segmentation, diameter
 estimation, and anomaly analysis aiming to examine the peripheral vessels through
 angiography images. It was validated on the new benchmark dataset consisting of 500 X-ray angiography images with 1,500 vessel segments. 
-The [dataset](https://drive.google.com/file/d/1o6igdM3PrEuVLSMEjece_jH3OhVNnoPg/view?usp=sharing) was collected annotated by two expert radiologists. The dataset is publicly available and can be downloaded for research purposes.
+The [dataset](https://drive.google.com/file/d/1TjxEJUD4VC_SAPcqdNVybsKRb_xW-Bze/view?usp=sharing) was collected annotated by two expert radiologists. The dataset is publicly available and can be downloaded for research purposes.
 
 ![](assets/figure_1.png)
 
