@@ -1,0 +1,6 @@
+.idea/
+data/
+tmp/
+sam_*
+__pycache__/
+.DS_Store
