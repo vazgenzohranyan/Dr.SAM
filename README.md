@@ -61,7 +61,7 @@ The dataset archive is organized as follows:
 
 `metadata.json`: This file contains information about bounding boxes and anomalies in the images. The file is structured as follows:
 
-```json
+```json5
   {
     "image_id": 1, // Image id in the dataset
     "anomalies": { // Anomalies in the image with the format {anomaly: [(x, y)]}
