@@ -2,29 +2,15 @@ import cv2
 import numpy as np
 import skimage.morphology
 from plantcv import plantcv as pcv
-from .utils import get_skeleton, remove_pixels_from_skeleton, dialate_erode
+from .utils import remove_pixels_from_skeleton, dialate_erode
 
 
-def skeletonize_v1(img):
-    img = img.copy()
-    erodated_skeleton = get_skeleton(dialate_erode(img))
-
-    processed_skeleton = remove_pixels_from_skeleton(img, erodated_skeleton)
-
-    pruned_skeleton, seg_im, segobj = pcv.morphology.prune(skel_img=processed_skeleton, size=80)
-
-    manual_pruned = pruned_skeleton.copy()
-
-    for seg in segobj:
-        if len(seg) < 80:
-            for p in seg:
-                p = p[0]
-                manual_pruned[p[1]][p[0]] = 1
-
-    return pcv.morphology.prune(skel_img=manual_pruned, size=80)
-
-
-def skeletonize_v2(img):
+def skeletonize(img: np.ndarray) -> tuple[np.ndarray, np.ndarray, list, int]:
+    """
+    Skeletonize the image.
+    :param img: Gray scale image.
+    :return: Binary image of the skeleton.
+    """
     dialated = dialate_erode(img.copy())
 
     last_image = dialated.copy()
@@ -51,9 +37,14 @@ def skeletonize_v2(img):
     return *pcv.morphology.prune(skel_img=manual_pruned, size=60), r - 1
 
 
-def get_thickness_from_skeleton_v2(img):
+def get_thickness_from_skeleton(img: np.ndarray) -> np.ndarray:
+    """
+    Get the thickness of the skeleton based on the morphological thinning mechanism.
+    :param img: Gray scale image.
+    :return: Numpy array representing the thickness of the skeleton.
+    """
     distances = np.zeros_like(img)
-    skeleton, _, segments, r = skeletonize_v2(img)
+    skeleton, _, segments, r = skeletonize(img)
 
     for i in range(0, r + 1):
         thinned = skimage.morphology.thin(dialate_erode(img), max_num_iter=i).astype(np.uint8)
@@ -69,7 +60,13 @@ def get_thickness_from_skeleton_v2(img):
     return distances
 
 
-def get_thickness_from_skeleton(img, skeleton):
+def get_thickness_from_distance_transform(img: np.ndarray, skeleton: np.ndarray) -> np.ndarray:
+    """
+    Get the thickness of the skeleton based on the distance transform mechanism.
+    :param img: Gray scale image.
+    :param skeleton: Numpy nd.array representing the skeleton.
+    :return: Numpy array representing the thickness of the skeleton.
+    """
     distance = cv2.distanceTransform(dialate_erode(img.copy()), distanceType=cv2.DIST_L2, maskSize=5).astype(np.float32)
     thickness = cv2.multiply(distance, skeleton.astype(np.float32))
     return thickness

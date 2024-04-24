@@ -1,64 +1,37 @@
 import cv2
 import math
 import numpy as np
-import skimage.morphology
 import matplotlib.pyplot as plt
 from plantcv import plantcv as pcv
 
 
-def plot_over_image(img1, img2):
-    plot_image(np.logical_xor(img1, img2))
-
-
-def dialate_erode(img, ksize=3, i=1):
+def dialate_erode(img: np.ndarray, ksize: int = 3, i: int = 1) -> np.ndarray:
+    """
+    Dialate and erode the image.
+    :param img: Image representing Numpy array
+    :param ksize: Kernel size
+    :param i: Iterations
+    :return: Dialated and eroded image.
+    """
     processed_img = cv2.dilate(img, np.ones((ksize, ksize)), i)
     processed_img = cv2.erode(processed_img, np.ones((ksize, ksize)), i)
     return processed_img
 
 
-def get_perp_coord(aX, aY, bX, bY, length=40):
-    vX = bX - aX
-    vY = bY - aY
-    # print(str(vX)+" "+str(vY))
-    if (vX == 0 or vY == 0):
-        return 0, 0, 0, 0
-    mag = math.sqrt(vX * vX + vY * vY)
-    vX = vX / mag
-    vY = vY / mag
-    temp = vX
-    vX = 0 - vY
-    vY = temp
-    cX = bX + vX * length
-    cY = bY + vY * length
-    dX = bX - vX * length
-    dY = bY - vY * length
-    return int(cX), int(cY), int(dX), int(dY)
-
-
-def get_skeleton(img):
-    return pcv.morphology.skeletonize(img)
-
-
-def prune(skeleton, size=80):
-    pruned_skeleton, _, _ = pcv.morphology.prune(skel_img=skeleton, size=40)
-    return pruned_skeleton / 255
-
-
-def get_distance(img):
-    distance = cv2.distanceTransform(img.copy(), distanceType=cv2.DIST_L2, maskSize=5).astype(np.float32)
-    return distance
-
-
-def draw_circles(img, thickness):
-    new_image = img.copy()
-    for i in range(0, thickness.shape[0], 20):
-        for j in range(thickness.shape[1]):
-            if thickness[i][j] > 0:
-                new_image = cv2.circle(new_image, (j, i), round(thickness[i][j]), (0, 0, 255), 1)
-    return new_image
-
-
-def draw_circles_from_segments(img, thickness, segments, step=8, fill=False):
+def draw_circles_from_segments(img: np.ndarray,
+                               thickness: np.ndarray,
+                               segments: list,
+                               step: int = 8,
+                               fill: bool = False):
+    """
+    Draw circles from segments of returned from skeletonization.
+    :param img: Grayscale image
+    :param thickness: Numpy array representing thickness of the skeleton pixels
+    :param segments: Skeleton branches
+    :param step: Step size to draw circles
+    :param fill: Indicates whether to fill the circle or not
+    :return: New image with circles drawn on it.
+    """
     new_image = img.copy()
     fill = -1 if fill else 1
 
@@ -70,40 +43,28 @@ def draw_circles_from_segments(img, thickness, segments, step=8, fill=False):
     return new_image
 
 
-def draw_lines_from_segments(img, thickness, segments, step=8):
-    new_image = img.copy()
-
-    for seg in segments:
-        last_point = seg[0][0]
-        for p in seg[1::step]:
-            p = p[0]
-
-            x1, x2, y1, y2 = get_perp_coord(p[1], p[0], last_point[1], last_point[0])
-            new_image = cv2.line(new_image, (x2, x1), (y2, y1), (0, 0, 255), 1)
-            last_point = p
-    #             new_image = cv2.circle(new_image, (p[0],p[1]), round(thickness[p[1]][p[0]]), (0,0,255), -1)
-
-    return new_image
-
-
-def remove_pixels_from_skeleton(img, skeleton):
+def remove_pixels_from_skeleton(img: np.ndarray, skeleton: np.ndarray) -> np.ndarray:
+    """
+    Remove pixels from the skeleton which are not in the original image.
+    :param img: Grayscale image
+    :param skeleton: Numpy array representing the skeleton
+    :return: New skeleton image without pixels not in the original image.
+    """
     return np.logical_and(img, skeleton).astype(np.uint8)
 
 
-def plot_image(img, title=''):
-    plt.imshow(img)
-    plt.title(title)
-    plt.show()
-
-
-def plot_image_with_points(img, points):
-    _im = img.copy()
-    for p in points:
-        _im = cv2.circle(_im, (p[0], p[1]), 5, (0, 0, 222), -1)
-    plot_image(_im)
-
-
-def add_points_to_image(img, points, color=(0, 0, 222), add_change=False):
+def add_points_to_image(img: np.ndarray,
+                        points: list,
+                        color: tuple = (0, 0, 222),
+                        add_change: bool = False) -> np.ndarray:
+    """
+    Add points to the image drawing circles.
+    :param img: Grayscale image
+    :param points: List of coordinates of the points
+    :param color: RGB shape color of the circles
+    :param add_change: Whether to add change percentage to the image or not
+    :return: Numpy array representing the image with circles drawn on it.
+    """
     _im = img.copy()
     for a in points:
         p = a['p']
@@ -114,32 +75,6 @@ def add_points_to_image(img, points, color=(0, 0, 222), add_change=False):
             _im = cv2.putText(_im, f"{int(change)}%", (p[0] + 10, p[1]), cv2.FONT_HERSHEY_SIMPLEX,
                               0.5, color, 1, cv2.LINE_AA)
     return _im
-
-
-def plot_skeletons(img, title):
-    fig, axs = plt.subplots(2, 4, figsize=(20, 10), sharey=True)
-    axs[0, 0].imshow(get_skeleton(img))
-    axs[0, 0].set_title('Skeleton')
-
-    axs[0, 1].imshow(get_skeleton(dialate_erode(img)))
-    axs[0, 1].set_title('Skeleton with dialate and erode')
-
-    axs[0, 2].imshow(prune(get_skeleton(img)))
-    axs[0, 2].set_title('Skeleton with pruned')
-
-    axs[0, 3].imshow(prune(get_skeleton(dialate_erode(img))))
-    axs[0, 3].set_title('Skeleton with dialte and erode then pruned')
-
-    axs[1, 0].imshow(np.logical_xor(get_skeleton(img), img))
-
-    axs[1, 1].imshow(np.logical_xor(get_skeleton(dialate_erode(img)), img))
-
-    axs[1, 2].imshow(np.logical_xor(prune(get_skeleton(img)), img))
-
-    axs[1, 3].imshow(np.logical_xor(prune(get_skeleton(dialate_erode(img))), img))
-
-    fig.suptitle(title)
-    plt.show()
 
 
 def find_closest_point_from_skeleton(points, skeleton_segments):
