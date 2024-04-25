@@ -139,7 +139,7 @@ python scripts/run.py --help
 ```
 or check the [source code](scripts/run.py).
 
-## Dataset
+## Benchmark dataset
 
 Dataset consists of carefully selected images from 500 angiographic examinations of the pelvic-iliac arteries, carried out between 2018 and 2024 at Bad Oeynhausen Hospital and JWK Klinikum Minden, 
 within their radiology departments. The focus of these examinations was the abdominal aorta below the renal arteries and the pelvic arteries. Of these images, 450 have a resolution of 386x448 pixels, and 50 have a resolution of 819x950 pixels. The dataset includes 170 images featuring at least one stenosis and 64 images with at least one aneurism.
@@ -168,7 +168,8 @@ The dataset archive is organized as follows:
 
 ## License
 
-The model is licensed under the [Apache 2.0 license](LICENSE).
+The code is licensed under the [Apache 2.0 license](LICENSE).\
+Our benchmark dataset is available for non-commercial, research purposes only.
 
 ## Citing Dr.SAM
 
@@ -176,6 +177,6 @@ If you use **Dr.SAM** in your research, please use the following BibTeX entry.
 
 ```
 @article{...,
-  TODO
+  Will be added
 }
 ```
