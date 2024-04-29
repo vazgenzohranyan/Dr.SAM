@@ -3,7 +3,7 @@
 [Vazgen Zohranyan](https://www.linkedin.com/in/vazgenzohranyan/), [Vagner Navasardyan](https://www.linkedin.com/in/vagner-navasardyan-94b89229a/), [Hayk Navasardyan](https://www.linkedin.com/in/hayk-navasardyan-104024211/), [Jan Borggrefe](https://www.linkedin.com/in/univ-prof-dr-med-jan-borggrefe-a51654161/), [Shant Navasardyan](https://www.linkedin.com/in/shant-navasardyan-1302aa149/)
 
 
-[[`Paper`](# WillBeAdded)] [[`Dataset`](https://drive.google.com/file/d/1TjxEJUD4VC_SAPcqdNVybsKRb_xW-Bze/view?usp=sharing)] 
+[[`Paper`](https://arxiv.org/abs/2404.17029)] [[`Dataset`](https://drive.google.com/file/d/1TjxEJUD4VC_SAPcqdNVybsKRb_xW-Bze/view?usp=sharing)] 
 
 ![Dr. SAM design](assets/figure_3.png)
 
