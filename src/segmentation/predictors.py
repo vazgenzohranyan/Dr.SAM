@@ -122,4 +122,4 @@ def segmentize(image: np.ndarray, input_boxes: torch.Tensor, i: int = 3) -> torc
 
             input_points_v2[j].extend(mask_points_v2)
 
-    return predicted
+    return _predict(image, input_boxes, np.array(input_points_v2))
