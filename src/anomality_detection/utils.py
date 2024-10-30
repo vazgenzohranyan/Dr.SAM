@@ -111,7 +111,7 @@ def add_points_to_image(img, points, color=(0, 0, 222), add_change=False):
         _im = cv2.circle(_im, (p[0], p[1]), 5, color, -1)
 
         if add_change:
-            _im = cv2.putText(_im, f"{int(change)}%", (p[0] + 10, p[1]), cv2.FONT_HERSHEY_SIMPLEX,
+            _im = cv2.putText(_im, f"{int(change)}%", (p[0] - 20, p[1] - 10), cv2.FONT_HERSHEY_SIMPLEX,
                               0.5, color, 1, cv2.LINE_AA)
     return _im
 

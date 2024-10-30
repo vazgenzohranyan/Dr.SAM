@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import skimage.morphology
 from plantcv import plantcv as pcv
+
 from .utils import get_skeleton, remove_pixels_from_skeleton, dialate_erode
 
 
@@ -19,7 +20,7 @@ def skeletonize_v1(img):
         if len(seg) < 80:
             for p in seg:
                 p = p[0]
-                manual_pruned[p[1]][p[0]] = 1
+                manual_pruned[p[1]][p[0]] = 0
 
     return pcv.morphology.prune(skel_img=manual_pruned, size=80)
 
@@ -46,7 +47,7 @@ def skeletonize_v2(img):
         if len(seg) < 60:
             for p in seg:
                 p = p[0]
-                manual_pruned[p[1]][p[0]] = 1
+                manual_pruned[p[1]][p[0]] = 0
 
     return *pcv.morphology.prune(skel_img=manual_pruned, size=60), r - 1
 

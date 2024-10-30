@@ -13,6 +13,7 @@ def find_anomality_points(mask):
     points = []
     anomality_indicator = [False] * len(segments)
     _im = test_image.copy()
+
     for _, seg in enumerate(segments):
         thicknesses = []
         thicknesses_dt = []
@@ -37,8 +38,8 @@ def find_anomality_points(mask):
             _thickness = np.array(thicknesses[5:-5])
             _thickness_dt = np.array(thicknesses_dt[5:-5])
             hop = 5
-        _mean_dt = (_thickness + _thickness_dt) / 2
 
+        _mean_dt = (_thickness + _thickness_dt) / 2
         anomalies = []
         for i, p in enumerate(_thickness):
             anomaly = True
@@ -117,33 +118,47 @@ def find_anomality_points(mask):
             filtered_anomalies = np.array(ff_anomalies)
 
             changes = []
+            changes_to_show = []
             if len(filtered_anomalies) > 1:
 
                 for i, a in enumerate(filtered_anomalies):
                     d = a[1]  # a[1] for thinning
-                    _left = max(0, int(a[0] - len(_thickness) / 10))
-                    _right = min(len(_thickness) - 1, int(a[0] + len(_thickness) / 10))
+                    _left = max(0, int(a[0] - len(_thickness) / 5))
+                    _right = min(len(_thickness) - 1, int(a[0] + len(_thickness) / 5))
+
                     _mean = (int(_thickness[_left]) + int(_thickness[_right])) / 2
+                    _mean_dt = (int(_thickness_dt[_left]) + int(_thickness_dt[_right])) / 2
 
                     if _mean == 0:
                         changes.append(0)
                     else:
                         _change = (abs(d - _mean) / _mean) * 100
                         _direction = 1 if d > _mean else -1
+                        if _change >= 40:
+
+                            print(int(_thickness_dt[_left]), _thickness_dt[int(a[0])], int(_thickness_dt[_right]))
                         changes.append(_change * _direction)
+
+                    if _mean_dt == 0:
+                        changes_to_show.append(0)
+                    else:
+                        _change = (abs(_thickness_dt[int(a[0])] - _mean_dt) / _mean_dt) * 100
+                        _direction = 1 if d > _mean_dt else -1
+                        changes_to_show.append(_change * _direction)
             else:
                 changes = [0]
             changes = np.array(changes)
+            changes_to_show = np.array(changes_to_show)
 
-            anomality_arr = (np.abs(changes) >= 30)
+            anomality_arr = (np.abs(changes) >= 40)
 
             filtered_anomalies = filtered_anomalies[anomality_arr]
-            changes = changes[anomality_arr]
+            changes_to_show = changes_to_show[anomality_arr]
 
             if len(filtered_anomalies) > 0:
                 anomality_indicator[_] = True
 
-            for a, change in zip(filtered_anomalies, changes):
+            for a, change in zip(filtered_anomalies, changes_to_show):
                 points.append({'p': seg[hop + int(a[0])][0], 'change': change})
 
     return points, anomality_indicator
