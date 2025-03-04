@@ -85,7 +85,14 @@ Our benchmark dataset is available for non-commercial, research purposes only
 If you use **Dr.SAM** in your research, please use the following BibTeX entry.
 
 ```
-@article{...,
-  Will be added
-}
+@INPROCEEDINGS{10678211,
+  author={Zohranyan, Vazgen and Navasardyan, Vagner and Navasardyan, Hayk and Borggrefe, Jan and Navasardyan, Shant},
+  booktitle={2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)}, 
+  title={Dr-SAM: An End-to-End Framework for Vascular Segmentation, Diameter Estimation, and Anomaly Detection on Angiography Images.}, 
+  year={2024},
+  volume={},
+  number={},
+  pages={5113-5121},
+  keywords={Image segmentation;Angiography;Conferences;Estimation;Benchmark testing;Pattern recognition;Anomaly detection;Zero-shot;Medical images;Anomaly detection;SAM;Segment anything model;Stenosis;Aneurysm},
+  doi={10.1109/CVPRW63382.2024.00518}}
 ```
